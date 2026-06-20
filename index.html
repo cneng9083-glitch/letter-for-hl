@@ -154,21 +154,6 @@ body::before{
 .hint.hide{display:none}
 @keyframes pulse{0%,100%{opacity:0.3}50%{opacity:0.8}}
 
-/* 余生小彩蛋 */
-.surprise{
-  text-align:center;padding:20px 0 10px;display:none
-}
-.surprise.show{display:block}
-.surprise .line{
-  font-size:20px;margin-bottom:8px;
-  opacity:0;transform:scale(0.5);
-  transition:all 0.6s cubic-bezier(0.34,1.56,0.64,1)
-}
-.surprise .line.show{opacity:1;transform:scale(1)}
-.surprise .l1{color:rgba(255,180,200,0.9);font-size:17px}
-.surprise .l2{color:rgba(255,200,215,0.7);font-size:22px;font-weight:600;letter-spacing:3px}
-.surprise .l3{color:rgba(255,140,170,0.5);font-size:13px;letter-spacing:2px;margin-top:4px}
-
 .reset{
   position:fixed;bottom:20px;right:20px;z-index:5;
   width:40px;height:40px;border-radius:50%;
@@ -189,7 +174,6 @@ input[type=number]{-moz-appearance:textfield}
   .card{padding:28px 18px 24px}
   .title{font-size:20px}.letter{font-size:14px}
   .lock-input{width:46px;height:52px;font-size:22px}
-  .surprise .l2{font-size:18px}
 }
 </style>
 </head>
@@ -249,12 +233,6 @@ input[type=number]{-moz-appearance:textfield}
       <p>而我会用余生，一直陪着你。</p>
       <p class="sig">— 爱你的鹏 💕</p>
     </div>
-    <!-- 小彩蛋 -->
-    <div class="surprise" id="surprise">
-      <div class="divider"></div>
-      <div class="line l1">✨ 偷偷算了一下 ✨</div>
-      <div class="line l2" id="daysCount"></div>
-      <div class="line l3">如果余生有那么多天，每一天我都想和你在一起</div>
     </div>
   </div>
 </div>
@@ -480,16 +458,7 @@ input[type=number]{-moz-appearance:textfield}
   var hint = document.getElementById("hint");
   var title = document.getElementById("cardTitle");
   var reset = document.getElementById("resetBtn");
-  var surprise = document.getElementById("surprise");
-  var daysCount = document.getElementById("daysCount");
   var opened = false;
-
-  // 余生天数计算（假设到80岁，鹏的年龄大约）
-  var now = new Date();
-  var birthYear = now.getFullYear() - 28; // 假设28岁
-  var endYear = birthYear + 80;
-  var daysRemaining = Math.round((new Date(endYear,0,1) - now) / (1000*60*60*24));
-  daysCount.textContent = "还有 " + daysRemaining.toLocaleString() + " 天 💕";
 
   card.onclick = function(e){
     if(!opened){openLetter();}
@@ -533,15 +502,6 @@ input[type=number]{-moz-appearance:textfield}
         },d);
       })(i*100);
     }
-
-    // 最后显示小彩蛋
-    setTimeout(function(){
-      surprise.className = "surprise show";
-      var lines = surprise.getElementsByClassName("line");
-      setTimeout(function(){if(lines[0])lines[0].className="line l1 show";},200);
-      setTimeout(function(){if(lines[1])lines[1].className="line l2 show";},600);
-      setTimeout(function(){if(lines[2])lines[2].className="line l3 show";},1000);
-    }, ps.length*120 + 600);
   }
 
   reset.onclick = function(e){
@@ -551,7 +511,6 @@ input[type=number]{-moz-appearance:textfield}
     hint.className="hint";
     reset.className="reset";
     card.className="card";
-    surprise.className="surprise";
     var ps=letter.getElementsByTagName("p");
     for(var i=0;i<ps.length;i++)ps[i].className="";
     clearInterval(timer);
