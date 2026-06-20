@@ -10,117 +10,142 @@
 html,body{height:100%;width:100%}
 body{
   font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
-  background:#1a0a12;
-  overflow-x:hidden;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  min-height:100%;
-  position:relative
+  background:#1a0a12;overflow-x:hidden;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;min-height:100%;position:relative
 }
 body::before{
-  content:"";
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  background:linear-gradient(160deg,#1a0a12 0%,#2d0f1e 25%,#3d1528 50%,#2a0f1a 75%,#1a0a12 100%);
-  z-index:-2
+  content:"";position:fixed;top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(160deg,#1a0a12 0%,#2d0f1e 25%,#3d1528 50%,#2a0f1a 75%,#1a0a12 100%);z-index:-2
 }
 .glow1,.glow2{
   position:fixed;border-radius:50%;pointer-events:none;z-index:-1;filter:blur(80px);opacity:0.6
 }
-.glow1{
-  width:300px;height:300px;top:-80px;right:-60px;
-  background:radial-gradient(circle,rgba(220,80,140,0.2),transparent 70%);
-  animation:gp1 4s ease-in-out infinite alternate
-}
-.glow2{
-  width:250px;height:250px;bottom:-50px;left:-50px;
-  background:radial-gradient(circle,rgba(200,100,160,0.15),transparent 70%);
-  animation:gp2 5s ease-in-out infinite alternate
-}
+.glow1{width:300px;height:300px;top:-80px;right:-60px;background:radial-gradient(circle,rgba(220,80,140,0.2),transparent 70%);animation:gp1 4s ease-in-out infinite alternate}
+.glow2{width:250px;height:250px;bottom:-50px;left:-50px;background:radial-gradient(circle,rgba(200,100,160,0.15),transparent 70%);animation:gp2 5s ease-in-out infinite alternate}
 @keyframes gp1{0%{opacity:0.4;transform:translate(0,0)}100%{opacity:0.8;transform:translate(20px,20px)}}
 @keyframes gp2{0%{opacity:0.3;transform:translate(0,0)}100%{opacity:0.6;transform:translate(-15px,-15px)}}
 
+/* 星星 */
 .stars{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:-1}
 .star{
   position:absolute;width:2px;height:2px;background:#ffdceb;border-radius:50%;
   animation:twinkle var(--dur) ease-in-out infinite alternate
 }
 @keyframes twinkle{0%{opacity:0.2;transform:scale(0.8)}100%{opacity:1;transform:scale(1.2)}}
+/* 星座连线 - HL */
+.constellation{
+  position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:-1;opacity:0.25
+}
 
-.hearts{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:1;overflow:hidden}
-.hpart{position:absolute;top:-40px;animation:fall linear infinite;opacity:0}
-@keyframes fall{
+/* 飘落元素容器 */
+.falling{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:1;overflow:hidden}
+
+/* 爱心 */
+.f-heart{position:absolute;top:-40px;animation:fall linear infinite;opacity:0}
+@keyframes fall{0%{transform:translateY(0) rotate(0deg);opacity:0}10%{opacity:0.7}85%{opacity:0.5}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+/* 花瓣 */
+.f-petal{position:absolute;top:-30px;width:16px;height:16px;border-radius:50% 0 50% 0;animation:petalFall linear infinite;opacity:0}
+@keyframes petalFall{
+  0%{transform:translateY(0) rotate(0deg) scale(0.6);opacity:0}
+  10%{opacity:0.6}
+  85%{opacity:0.3}
+  100%{transform:translateY(100vh) rotate(360deg) scale(1);opacity:0}
+}
+/* 彩色纸屑 */
+.f-confetti{position:absolute;top:-20px;width:8px;height:8px;animation:confettiFall linear infinite;opacity:0}
+@keyframes confettiFall{
   0%{transform:translateY(0) rotate(0deg);opacity:0}
-  10%{opacity:0.7}
-  85%{opacity:0.5}
+  10%{opacity:0.8}
+  85%{opacity:0.4}
   100%{transform:translateY(100vh) rotate(720deg);opacity:0}
+}
+
+/* ---- 烟花 ---- */
+.fw-container{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:8}
+.fw-particle{
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  animation:fwExplode var(--fw-dur) ease-out forwards
+}
+@keyframes fwExplode{
+  0%{transform:translate(0,0) scale(1);opacity:1}
+  100%{transform:translate(var(--fw-x),var(--fw-y)) scale(0);opacity:0}
+}
+/* 烟花拖尾 */
+.fw-trail{
+  position:absolute;width:3px;height:3px;border-radius:50%;
+  animation:fwTrail var(--fw-dur) ease-out forwards
+}
+@keyframes fwTrail{
+  0%{transform:translate(0,0);opacity:0.6}
+  100%{transform:translate(var(--fw-x),var(--fw-y));opacity:0}
+}
+
+/* ---- 触控流光 ---- */
+.sparkle-container{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:7}
+.sparkle{
+  position:absolute;border-radius:50%;
+  animation:sparkleAnim 0.8s ease-out forwards;
+  pointer-events:none
+}
+@keyframes sparkleAnim{
+  0%{transform:scale(0);opacity:1}
+  50%{transform:scale(1.5);opacity:0.8}
+  100%{transform:scale(0);opacity:0}
 }
 
 /* ---- 密码锁 ---- */
 .lock-screen{
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  z-index:20;
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:20;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   background:rgba(26,10,18,0.92);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   transition:opacity 0.8s ease
 }
 .lock-screen.hide{opacity:0;pointer-events:none}
-.lock-heart{font-size:48px;margin-bottom:12px;animation:beat 1.8s ease-in-out infinite}
-@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.15)}30%{transform:scale(1)}45%{transform:scale(1.08)}60%{transform:scale(1)}}
-.lock-title{
-  font-size:20px;font-weight:600;color:rgba(255,240,245,0.9);letter-spacing:2px;margin-bottom:6px
+.lock-emoji{
+  font-size:52px;margin-bottom:8px;display:inline-block;
+  animation:floating 2.5s ease-in-out infinite
 }
-.lock-sub{
-  font-size:13px;color:rgba(255,210,220,0.5);letter-spacing:3px;margin-bottom:30px
-}
-.lock-input-wrap{
-  display:flex;gap:10px;margin-bottom:16px
-}
+@keyframes floating{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.lock-title{font-size:20px;font-weight:600;color:rgba(255,240,245,0.9);letter-spacing:2px;margin-bottom:4px}
+.lock-sub{font-size:13px;color:rgba(255,210,220,0.5);letter-spacing:3px;margin-bottom:28px}
+.lock-input-wrap{display:flex;gap:12px;margin-bottom:14px}
 .lock-input{
-  width:52px;height:60px;
-  border:none;border-bottom:2px solid rgba(255,200,215,0.25);
-  background:transparent;
-  text-align:center;font-size:28px;font-weight:600;
+  width:50px;height:58px;border:none;border-radius:12px;
+  background:rgba(255,240,245,0.06);border:1px solid rgba(255,200,215,0.15);
+  text-align:center;font-size:24px;font-weight:600;
   color:rgba(255,240,245,0.9);outline:none;
-  transition:border-color 0.3s;
-  caret-color:rgba(255,140,170,0.6)
+  transition:all 0.3s;caret-color:rgba(255,140,170,0.6)
 }
-.lock-input:focus{border-bottom-color:rgba(255,140,170,0.6)}
-.lock-input.wrong{border-bottom-color:rgba(255,80,100,0.6);animation:shake 0.4s ease}
+.lock-input:focus{border-color:rgba(255,140,170,0.4);background:rgba(255,240,245,0.1)}
+.lock-input.wrong{border-color:rgba(255,80,100,0.5);background:rgba(255,80,100,0.08);animation:shake 0.4s ease}
 @keyframes shake{
-  0%,100%{transform:translateX(0)}
-  20%{transform:translateX(-8px)}
-  40%{transform:translateX(8px)}
-  60%{transform:translateX(-5px)}
-  80%{transform:translateX(5px)}
+  0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}
 }
-.lock-err{
-  font-size:13px;color:rgba(255,120,140,0.7);min-height:20px;margin-bottom:10px
-}
-.lock-hint{
-  font-size:12px;color:rgba(255,200,215,0.2);letter-spacing:1px
-}
+.lock-err{font-size:13px;min-height:20px;margin-bottom:8px;transition:all 0.3s}
+.lock-hint{font-size:12px;color:rgba(255,200,215,0.2);letter-spacing:1px}
 
-/* ---- 卡片 ---- */
+/* ---- 情书卡片 ---- */
 .wrap{position:relative;z-index:2;width:100%;padding:30px 0 60px;display:flex;justify-content:center}
 .card{
   width:88%;max-width:380px;padding:35px 24px 30px;
-  background:rgba(255,240,245,0.08);
-  border-radius:22px;border:1px solid rgba(255,200,215,0.15);
-  box-shadow:0 8px 40px rgba(0,0,0,0.3);
-  text-align:center;cursor:pointer;transition:transform 0.3s
+  background:rgba(255,240,245,0.08);border-radius:22px;
+  border:1px solid rgba(255,200,215,0.15);
+  box-shadow:0 8px 40px rgba(0,0,0,0.3);text-align:center;cursor:pointer;transition:transform 0.3s,box-shadow 0.5s
 }
 .card:active{transform:scale(0.97)}
+.card.open{box-shadow:0 8px 60px rgba(220,80,140,0.15),0 0 80px rgba(220,80,120,0.05)}
 .heart-icon{
-  display:inline-block;width:68px;height:68px;line-height:68px;
-  border-radius:50%;background:rgba(255,80,120,0.15);
-  border:1px solid rgba(255,140,170,0.15);margin-bottom:14px;font-size:30px;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:68px;height:68px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(255,80,120,0.2),rgba(200,60,100,0.1));
+  border:1px solid rgba(255,140,170,0.2);margin-bottom:14px;font-size:30px;
   animation:beat 1.8s ease-in-out infinite
 }
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.06)}60%{transform:scale(1)}}
 .title{font-size:22px;font-weight:600;color:rgba(255,240,245,0.95);letter-spacing:2px;margin-bottom:4px}
 .subtitle{font-size:13px;font-weight:300;color:rgba(255,210,220,0.55);letter-spacing:4px;margin-bottom:18px}
 .divider{width:50px;height:1px;margin:0 auto 18px;background:linear-gradient(90deg,transparent,rgba(255,180,200,0.4),transparent)}
-
 .letter{text-align:left;line-height:1.9;font-size:15px;color:rgba(255,235,240,0.82);letter-spacing:0.3px;min-height:30px}
 .letter p{margin-bottom:12px;opacity:0;transform:translateY(10px);transition:opacity 0.5s,transform 0.5s}
 .letter p.show{opacity:1;transform:translateY(0)}
@@ -129,10 +154,27 @@ body::before{
 .hint.hide{display:none}
 @keyframes pulse{0%,100%{opacity:0.3}50%{opacity:0.8}}
 
+/* 余生小彩蛋 */
+.surprise{
+  text-align:center;padding:20px 0 10px;display:none
+}
+.surprise.show{display:block}
+.surprise .line{
+  font-size:20px;margin-bottom:8px;
+  opacity:0;transform:scale(0.5);
+  transition:all 0.6s cubic-bezier(0.34,1.56,0.64,1)
+}
+.surprise .line.show{opacity:1;transform:scale(1)}
+.surprise .l1{color:rgba(255,180,200,0.9);font-size:17px}
+.surprise .l2{color:rgba(255,200,215,0.7);font-size:22px;font-weight:600;letter-spacing:3px}
+.surprise .l3{color:rgba(255,140,170,0.5);font-size:13px;letter-spacing:2px;margin-top:4px}
+
 .reset{
   position:fixed;bottom:20px;right:20px;z-index:5;
-  width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,200,215,0.12);
-  background:rgba(255,240,245,0.04);color:rgba(255,200,215,0.25);font-size:18px;
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid rgba(255,200,215,0.12);
+  background:rgba(255,240,245,0.04);
+  color:rgba(255,200,215,0.25);font-size:18px;
   cursor:pointer;display:flex;align-items:center;justify-content:center;
   opacity:0;pointer-events:none;transition:opacity 0.3s
 }
@@ -140,15 +182,14 @@ body::before{
 .reset:active{transform:scale(0.9)}
 .footer{position:relative;z-index:3;text-align:center;padding:20px 0;font-size:12px;color:rgba(255,200,215,0.15);letter-spacing:1px}
 
-/* 输入框聚焦自动跳转 - 隐藏箭头 */
 input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 input[type=number]{-moz-appearance:textfield}
 
 @media(max-width:420px){
   .card{padding:28px 18px 24px}
-  .title{font-size:20px}
-  .letter{font-size:14px}
-  .lock-input{width:44px;height:52px;font-size:24px}
+  .title{font-size:20px}.letter{font-size:14px}
+  .lock-input{width:46px;height:52px;font-size:22px}
+  .surprise .l2{font-size:18px}
 }
 </style>
 </head>
@@ -157,11 +198,14 @@ input[type=number]{-moz-appearance:textfield}
 <div class="glow1"></div>
 <div class="glow2"></div>
 <div class="stars" id="starsContainer"></div>
-<div class="hearts" id="heartsContainer"></div>
+<div class="constellation" id="constellation"></div>
+<div class="falling" id="fallingContainer"></div>
+<div class="fw-container" id="fwContainer"></div>
+<div class="sparkle-container" id="sparkleContainer"></div>
 
 <!-- 密码锁 -->
 <div class="lock-screen" id="lockScreen">
-  <div class="lock-heart">💕</div>
+  <div class="lock-emoji" id="lockEmoji">💌</div>
   <div class="lock-title">一封给你的信</div>
   <div class="lock-sub">— 输入密码解锁 —</div>
   <div class="lock-input-wrap">
@@ -174,7 +218,7 @@ input[type=number]{-moz-appearance:textfield}
   <div class="lock-hint">输入4位密码</div>
 </div>
 
-<!-- 情书内容 -->
+<!-- 情书 -->
 <div class="wrap">
   <div class="card" id="card">
     <div class="heart-icon">💕</div>
@@ -205,6 +249,13 @@ input[type=number]{-moz-appearance:textfield}
       <p>而我会用余生，一直陪着你。</p>
       <p class="sig">— 爱你的鹏 💕</p>
     </div>
+    <!-- 小彩蛋 -->
+    <div class="surprise" id="surprise">
+      <div class="divider"></div>
+      <div class="line l1">✨ 偷偷算了一下 ✨</div>
+      <div class="line l2" id="daysCount"></div>
+      <div class="line l3">如果余生有那么多天，每一天我都想和你在一起</div>
+    </div>
   </div>
 </div>
 
@@ -214,10 +265,10 @@ input[type=number]{-moz-appearance:textfield}
 <script>
 (function(){
   "use strict";
+  var ww = window.innerWidth, wh = window.innerHeight;
 
   /* ---- 星星 ---- */
   var sc = document.getElementById("starsContainer");
-  var ww = window.innerWidth, wh = window.innerHeight;
   var n = Math.min(Math.floor((ww * wh) / 4000), 200);
   for (var i = 0; i < n; i++) {
     var s = document.createElement("div");
@@ -231,75 +282,194 @@ input[type=number]{-moz-appearance:textfield}
     sc.appendChild(s);
   }
 
-  /* ---- 飘落爱心 ---- */
-  var hc = document.getElementById("heartsContainer");
-  var hearts = ["♥","❤","💕","💗","💖","♡"];
+  /* ---- 星座 HL 连线 ---- */
+  (function(){
+    var c = document.getElementById("constellation");
+    var svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+    svg.setAttribute("width","100%");svg.setAttribute("height","100%");
+    svg.style.cssText = "position:absolute;top:0;left:0";
+    // H 的点
+    var pts = [
+      {x:15,y:20},{x:15,y:80}, {x:15,y:50},{x:30,y:50},
+      {x:30,y:20},{x:30,y:80}
+    ];
+    // L 的点
+    pts.push({x:45,y:20},{x:45,y:80},{x:60,y:80});
+    // 绘制连线
+    var lines = [[0,1],[2,3],[4,5],[6,7],[7,8]];
+    for(var i=0;i<lines.length;i++){
+      var l = document.createElementNS("http://www.w3.org/2000/svg","line");
+      var p1=pts[lines[i][0]],p2=pts[lines[i][1]];
+      l.setAttribute("x1",p1.x+"%");l.setAttribute("y1",p1.y+"%");
+      l.setAttribute("x2",p2.x+"%");l.setAttribute("y2",p2.y+"%");
+      l.setAttribute("stroke","rgba(255,180,200,0.15)");
+      l.setAttribute("stroke-width","1");
+      l.setAttribute("stroke-dasharray","4 3");
+      svg.appendChild(l);
+    }
+    // 星点
+    for(var i=0;i<pts.length;i++){
+      var c2 = document.createElementNS("http://www.w3.org/2000/svg","circle");
+      c2.setAttribute("cx",pts[i].x+"%");c2.setAttribute("cy",pts[i].y+"%");
+      c2.setAttribute("r","2.5");
+      c2.setAttribute("fill","rgba(255,200,220,0.3)");
+      svg.appendChild(c2);
+    }
+    c.appendChild(svg);
+  })();
+
+  /* ---- 飘落元素 ---- */
+  var fc = document.getElementById("fallingContainer");
   var timer;
+  var petalColors = ["#ffb3c6","#ff8fab","#ffb7c5","#f8c8dc","#ffd1dc","#e8a0bf"];
+  var confettiColors = ["#ff6b8a","#ffb347","#6bcbff","#a78bfa","#34d399","#f472b6","#fbbf24"];
 
-  function makeHeart() {
-    var el = document.createElement("div");
-    el.className = "hpart";
-    el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-    el.style.fontSize = (Math.random() * 16 + 12) + "px";
-    el.style.left = (Math.random() * 96 + 2) + "%";
-    el.style.animationDuration = (Math.random() * 5 + 6) + "s";
-    var h = Math.random() * 30 + 340;
-    el.style.color = "hsl(" + h + ",80%,70%)";
-    hc.appendChild(el);
-    setTimeout(function(){ if(el.parentNode) el.remove(); }, 15000);
+  function makeFalling(){
+    var r = Math.random();
+    if(r < 0.5){ // 爱心
+      var el = document.createElement("div");
+      el.className = "f-heart";
+      el.textContent = ["♥","❤","💕","💗","💖","♡"][Math.floor(Math.random()*6)];
+      el.style.fontSize = (Math.random()*16+12)+"px";
+      el.style.left = (Math.random()*96+2)+"%";
+      el.style.animationDuration = (Math.random()*5+6)+"s";
+      var h = Math.random()*30+340;
+      el.style.color = "hsl("+h+",80%,70%)";
+      fc.appendChild(el);
+      setTimeout(function(){if(el.parentNode) el.remove()},15000);
+    } else if(r < 0.8){ // 花瓣
+      var el2 = document.createElement("div");
+      el2.className = "f-petal";
+      el2.style.background = petalColors[Math.floor(Math.random()*petalColors.length)];
+      el2.style.left = (Math.random()*96+2)+"%";
+      el2.style.animationDuration = (Math.random()*5+7)+"s";
+      el2.style.width = el2.style.height = (Math.random()*10+10)+"px";
+      fc.appendChild(el2);
+      setTimeout(function(){if(el2.parentNode) el2.remove()},16000);
+    } else { // 纸屑
+      var el3 = document.createElement("div");
+      el3.className = "f-confetti";
+      el3.style.background = confettiColors[Math.floor(Math.random()*confettiColors.length)];
+      el3.style.left = (Math.random()*96+2)+"%";
+      el3.style.animationDuration = (Math.random()*4+5)+"s";
+      el3.style.borderRadius = Math.random()>0.5?"50%":"2px";
+      fc.appendChild(el3);
+      setTimeout(function(){if(el3.parentNode) el3.remove()},12000);
+    }
   }
-  timer = setInterval(makeHeart, 300);
+  timer = setInterval(makeFalling, 250);
 
-  /* ---- 密码验证 ---- */
-  var PASSWORD = "1116";
-  var digits = [];
-  var inputs = [document.getElementById("d1"), document.getElementById("d2"), document.getElementById("d3"), document.getElementById("d4")];
-  var lockErr = document.getElementById("lockErr");
-  var lockScreen = document.getElementById("lockScreen");
+  /* ---- 烟花 ---- */
+  var fwc = document.getElementById("fwContainer");
+  var fwColors = ["#ff6b8a","#ff8fab","#ffb347","#ffd700","#6bcbff","#a78bfa","#34d399","#f472b6","#fbbf24","#ff3d6b"];
 
-  function focusNext(idx) {
-    if (idx < 3) inputs[idx + 1].focus();
-  }
-
-  function checkPassword() {
-    var val = "";
-    for (var i = 0; i < 4; i++) val += inputs[i].value;
-    if (val.length < 4) return;
-    if (val === PASSWORD) {
-      unlock();
-    } else {
-      lockErr.textContent = "密码错误，再试一次 💕";
-      for (var i = 0; i < 4; i++) {
-        inputs[i].className = "lock-input wrong";
-        setTimeout(function(idx){ return function(){ inputs[idx].className = "lock-input"; inputs[idx].value = ""; }; }(i), 500);
+  function firework(x, y, opts){
+    opts = opts || {};
+    var count = opts.count || 40;
+    var colors = opts.colors || fwColors;
+    var radius = opts.radius || (80 + Math.random() * 100);
+    for(var i=0;i<count;i++){
+      var ang = Math.PI*2/count*i + (Math.random()-0.5)*0.3;
+      var dist = radius * (0.5 + Math.random()*0.5);
+      var dx = Math.cos(ang)*dist, dy = Math.sin(ang)*dist;
+      // 主粒子
+      var p = document.createElement("div");
+      p.className = "fw-particle";
+      p.style.setProperty("--fw-x",dx+"px");p.style.setProperty("--fw-y",dy+"px");
+      p.style.setProperty("--fw-dur",(0.8+Math.random()*0.6)+"s");
+      p.style.background = colors[Math.floor(Math.random()*colors.length)];
+      var sz = Math.random()*4+3;
+      p.style.width=p.style.height=sz+"px";
+      p.style.left=x+"px";p.style.top=y+"px";
+      p.style.animationDelay = (Math.random()*0.1)+"s";
+      fwc.appendChild(p);
+      setTimeout(function(){if(p.parentNode)p.remove()},2000);
+      // 拖尾(部分粒子)
+      if(i%3===0){
+        var t = document.createElement("div");
+        t.className = "fw-trail";
+        t.style.setProperty("--fw-x",dx*0.3+"px");t.style.setProperty("--fw-y",dy*0.3+"px");
+        t.style.setProperty("--fw-dur",(0.3+Math.random()*0.3)+"s");
+        t.style.background = "rgba(255,200,220,0.3)";
+        t.style.left=x+"px";t.style.top=y+"px";
+        fwc.appendChild(t);
+        setTimeout(function(){if(t.parentNode)t.remove()},1000);
       }
-      setTimeout(function(){ lockErr.textContent = ""; inputs[0].focus(); }, 600);
     }
   }
 
-  function unlock() {
-    lockErr.textContent = "💕 解锁成功";
-    lockErr.style.color = "rgba(140,255,180,0.7)";
-    setTimeout(function(){
-      lockScreen.className = "lock-screen hide";
-      setTimeout(function(){ lockScreen.style.display = "none"; }, 800);
-    }, 400);
+  /* ---- 触控流光 ---- */
+  var spc = document.getElementById("sparkleContainer");
+
+  function sparkleAt(x,y){
+    var colors = ["#ff8fab","#ffb3c6","#ffd700","#ff6b8a","#a78bfa","#6bcbff"];
+    var count = 4 + Math.floor(Math.random()*4);
+    for(var i=0;i<count;i++){
+      var el = document.createElement("div");
+      el.className = "sparkle";
+      var sz = Math.random()*8+4;
+      el.style.width=el.style.height=sz+"px";
+      el.style.background = colors[Math.floor(Math.random()*colors.length)];
+      el.style.left = (x + (Math.random()-0.5)*30)+"px";
+      el.style.top = (y + (Math.random()-0.5)*30)+"px";
+      el.style.animationDuration = (0.5+Math.random()*0.4)+"s";
+      spc.appendChild(el);
+      setTimeout(function(){if(el.parentNode)el.remove()},1200);
+    }
   }
 
-  for (var i = 0; i < 4; i++) {
+  // 触摸/点击产生流光
+  document.addEventListener("click", function(e){
+    sparkleAt(e.clientX, e.clientY);
+  });
+  document.addEventListener("touchmove", function(e){
+    var t = e.touches[0];
+    if(Math.random()<0.3) sparkleAt(t.clientX, t.clientY);
+  }, {passive:true});
+
+  /* ---- 密码 ---- */
+  var PASSWORD = "1116";
+  var inputs = [document.getElementById("d1"),document.getElementById("d2"),document.getElementById("d3"),document.getElementById("d4")];
+  var lockErr = document.getElementById("lockErr");
+  var lockScreen = document.getElementById("lockScreen");
+
+  function focusNext(idx){if(idx<3) inputs[idx+1].focus();}
+
+  function checkPassword(){
+    var val="";
+    for(var i=0;i<4;i++) val+=inputs[i].value;
+    if(val.length<4) return;
+    if(val===PASSWORD){
+      lockErr.textContent = "💕 解锁成功！";
+      lockErr.style.color = "rgba(140,255,180,0.8)";
+      // 放烟花庆祝
+      setTimeout(function(){
+        firework(ww/2, wh*0.3, {count:60,radius:130});
+        setTimeout(function(){firework(ww*0.3,wh*0.4,{count:40,radius:90});},200);
+        setTimeout(function(){firework(ww*0.7,wh*0.35,{count:40,radius:90});},400);
+      },200);
+      setTimeout(function(){
+        lockScreen.className = "lock-screen hide";
+        setTimeout(function(){lockScreen.style.display="none";},800);
+      },500);
+    }else{
+      lockErr.textContent = "密码不对哦，再试一次 💕";
+      lockErr.style.color = "rgba(255,150,170,0.8)";
+      for(var i=0;i<4;i++){
+        inputs[i].className = "lock-input wrong";
+        setTimeout(function(idx){return function(){inputs[idx].className="lock-input";inputs[idx].value="";}}(i),500);
+      }
+      setTimeout(function(){lockErr.textContent="";inputs[0].focus();},700);
+    }
+  }
+
+  for(var i=0;i<4;i++){
     (function(idx){
-      inputs[idx].addEventListener("input", function(){
-        if (this.value.length >= 1) {
-          this.value = this.value.slice(-1);
-          focusNext(idx);
-          checkPassword();
-        }
+      inputs[idx].addEventListener("input",function(){
+        if(this.value.length>=1){this.value=this.value.slice(-1);focusNext(idx);checkPassword();}
       });
-      inputs[idx].addEventListener("keydown", function(e){
-        if (e.key === "Backspace" && this.value === "" && idx > 0) {
-          inputs[idx - 1].focus();
-          inputs[idx - 1].value = "";
-        }
+      inputs[idx].addEventListener("keydown",function(e){
+        if(e.key==="Backspace"&&this.value===""&&idx>0){inputs[idx-1].focus();inputs[idx-1].value="";}
       });
     })(i);
   }
@@ -310,13 +480,22 @@ input[type=number]{-moz-appearance:textfield}
   var hint = document.getElementById("hint");
   var title = document.getElementById("cardTitle");
   var reset = document.getElementById("resetBtn");
+  var surprise = document.getElementById("surprise");
+  var daysCount = document.getElementById("daysCount");
   var opened = false;
 
+  // 余生天数计算（假设到80岁，鹏的年龄大约）
+  var now = new Date();
+  var birthYear = now.getFullYear() - 28; // 假设28岁
+  var endYear = birthYear + 80;
+  var daysRemaining = Math.round((new Date(endYear,0,1) - now) / (1000*60*60*24));
+  daysCount.textContent = "还有 " + daysRemaining.toLocaleString() + " 天 💕";
+
   card.onclick = function(e){
-    if (!opened) {
-      openLetter();
-    } else {
+    if(!opened){openLetter();}
+    else{
       burst(e);
+      firework(e.clientX||ww/2, e.clientY||wh/2, {count:30,radius:70});
     }
   };
 
@@ -324,66 +503,93 @@ input[type=number]{-moz-appearance:textfield}
     opened = true;
     hint.className = "hint hide";
     title.textContent = "💕 给我的海连";
+    card.className = "card open";
 
     var ps = letter.getElementsByTagName("p");
-    for (var i = 0; i < ps.length; i++) {
-      (function(p, d){
-        setTimeout(function(){ p.className = "show"; }, d);
-      })(ps[i], i * 120);
+    for(var i=0;i<ps.length;i++){
+      (function(p,d){setTimeout(function(){p.className="show";},d);})(ps[i],i*120);
     }
 
     clearInterval(timer);
-    timer = setInterval(makeHeart, 120);
+    timer = setInterval(makeFalling, 100);
     reset.className = "reset show";
 
+    // 烟花庆祝
     var r = card.getBoundingClientRect();
-    var cx = r.left + r.width/2, cy = r.top + r.height/2;
-    for (var i = 0; i < 10; i++) {
+    var cx = r.left+r.width/2, cy = r.top+r.height/2;
+    for(var i=0;i<6;i++){
       (function(d){
         setTimeout(function(){
-          burst({clientX: cx + (Math.random()-0.5)*r.width*0.5, clientY: cy + (Math.random()-0.5)*r.height*0.3});
-        }, d);
-      })(i * 120);
+          firework(cx+(Math.random()-0.5)*r.width, cy-50+(Math.random()-0.5)*r.height*0.3, {count:35,radius:80});
+        },d);
+      })(i*250);
     }
+
+    // 爱心爆发
+    for(var i=0;i<10;i++){
+      (function(d){
+        setTimeout(function(){
+          burst({clientX:cx+(Math.random()-0.5)*r.width*0.5,clientY:cy+(Math.random()-0.5)*r.height*0.3});
+        },d);
+      })(i*100);
+    }
+
+    // 最后显示小彩蛋
+    setTimeout(function(){
+      surprise.className = "surprise show";
+      var lines = surprise.getElementsByClassName("line");
+      setTimeout(function(){if(lines[0])lines[0].className="line l1 show";},200);
+      setTimeout(function(){if(lines[1])lines[1].className="line l2 show";},600);
+      setTimeout(function(){if(lines[2])lines[2].className="line l3 show";},1000);
+    }, ps.length*120 + 600);
   }
 
   reset.onclick = function(e){
     e.stopPropagation();
-    opened = false;
-    title.textContent = "💌 给你的一封信";
-    hint.className = "hint";
-    reset.className = "reset";
-    var ps = letter.getElementsByTagName("p");
-    for (var i = 0; i < ps.length; i++) ps[i].className = "";
+    opened=false;
+    title.textContent="💌 给你的一封信";
+    hint.className="hint";
+    reset.className="reset";
+    card.className="card";
+    surprise.className="surprise";
+    var ps=letter.getElementsByTagName("p");
+    for(var i=0;i<ps.length;i++)ps[i].className="";
     clearInterval(timer);
-    timer = setInterval(makeHeart, 300);
+    timer=setInterval(makeFalling,250);
   };
 
   /* ---- 爱心爆发 ---- */
-  var burstChars = ["♥","❤","💕","💗","💖","✨","🌟","💝"];
-  var bc = document.createElement("div");
-  bc.style.cssText = "position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:9";
+  var burstChars=["♥","❤","💕","💗","💖","✨","🌟","💝"];
+  var bc=document.createElement("div");
+  bc.style.cssText="position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:9";
   document.body.appendChild(bc);
 
   function burst(e){
-    var x = e.clientX || ww/2, y = e.clientY || wh/2;
-    var cnt = 8 + Math.floor(Math.random() * 8);
-    for (var i = 0; i < cnt; i++) {
-      var el = document.createElement("div");
-      el.textContent = burstChars[Math.floor(Math.random() * burstChars.length)];
-      var ang = (Math.PI * 2 / cnt) * i + (Math.random() - 0.5) * 0.4;
-      var dist = 50 + Math.random() * 100;
-      el.style.cssText = "position:absolute;font-size:" + (14 + Math.random() * 14) + "px;left:" + x + "px;top:" + y + "px;pointer-events:none;animation:bfly 1s ease-out forwards";
-      el.style.setProperty("--dx", Math.cos(ang) * dist + "px");
-      el.style.setProperty("--dy", Math.sin(ang) * dist + "px");
+    var x=e.clientX||ww/2,y=e.clientY||wh/2;
+    var cnt=8+Math.floor(Math.random()*8);
+    for(var i=0;i<cnt;i++){
+      var el=document.createElement("div");
+      el.textContent=burstChars[Math.floor(Math.random()*burstChars.length)];
+      var ang=Math.PI*2/cnt*i+(Math.random()-0.5)*0.4;
+      var dist=50+Math.random()*100;
+      el.style.cssText="position:absolute;font-size:"+(14+Math.random()*14)+"px;left:"+x+"px;top:"+y+"px;pointer-events:none;animation:bfly 1s ease-out forwards";
+      el.style.setProperty("--dx",Math.cos(ang)*dist+"px");
+      el.style.setProperty("--dy",Math.sin(ang)*dist+"px");
       bc.appendChild(el);
-      setTimeout(function(){ if(el.parentNode) el.remove(); }, 1200);
+      setTimeout(function(){if(el.parentNode)el.remove();},1200);
     }
   }
 
-  var sty = document.createElement("style");
-  sty.textContent = "@keyframes bfly{0%{transform:translate(0,0) scale(0.3) rotate(0deg);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1) rotate(720deg);opacity:0}}";
+  var sty=document.createElement("style");
+  sty.textContent="@keyframes bfly{0%{transform:translate(0,0) scale(0.3) rotate(0deg);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1) rotate(720deg);opacity:0}}";
   document.head.appendChild(sty);
+
+  /* ---- 锁屏emoji切换 ---- */
+  var lockEmoji=document.getElementById("lockEmoji");
+  var emojis=["💌","💕","💗","💖","✨","🌹"];
+  setInterval(function(){
+    lockEmoji.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  },2000);
 })();
 </script>
 </body>
